@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Stuffy.API.Data;
+using System.Text.Json.Serialization;
 
 namespace Stuffy.API
 {
@@ -26,6 +29,12 @@ namespace Stuffy.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<StuffyAPIContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("StuffyAPIContext")));
+            services.AddScoped<StuffyAPIContext>();
+
+            services.AddMvc().AddJsonOptions(op => op.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
