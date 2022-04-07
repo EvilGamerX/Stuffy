@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Nodes]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Name] NVARCHAR(MAX) NOT NULL, 
+    [Type] INT NOT NULL DEFAULT 0, 
+    [ColourCode] INT NOT NULL
+)
