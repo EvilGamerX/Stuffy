@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stuffy.API.Data;
-using Stuffy.API.Entities;
+using Stuffy.API.Models;
 using Stuffy.Entity;
 
 namespace Stuffy.API.Controllers
@@ -23,14 +23,15 @@ namespace Stuffy.API.Controllers
 
         // GET: api/Node
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Node>>> GetNode()
+        public async Task<ActionResult<IEnumerable<NodeViewModel>>> GetNode()
         {
-            return await _context.Nodes.ToListAsync();
+            var nodes = await _context.Nodes.ToListAsync();
+            return nodes?.Select(node => new NodeViewModel(node)).ToList();
         }
 
         // GET: api/Node/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Node>> GetNode(Guid id)
+        public async Task<ActionResult<NodeViewModel>> GetNode(Guid id)
         {
             var node = await _context.Nodes.FindAsync(id);
 
@@ -39,21 +40,31 @@ namespace Stuffy.API.Controllers
                 return NotFound();
             }
 
-            return node;
+            return new NodeViewModel(node);
+        }
+
+        //GET: api/Node/5/Connections
+        [HttpGet("{id}/Connections")]
+        public async Task<ActionResult<IEnumerable<ConnectionViewModel>>> GetConnectionsForNode(Guid id)
+        {
+            var connections = await _context.Nodes.FindAsync(id);
+
+            throw new NotImplementedException();
         }
 
         // PUT: api/Node/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNode(Guid id, Node node)
+        public async Task<IActionResult> PutNode(Guid id, NodeViewModel node)
         {
-            if (id != node.Id)
+            var nts = node?.ToEntity();
+            if (nts == null || id != node.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(node).State = EntityState.Modified;
+            _context.Entry(nts).State = EntityState.Modified;
 
             try
             {
@@ -78,12 +89,13 @@ namespace Stuffy.API.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Node>> PostNode(Node node)
+        public async Task<ActionResult<Node>> PostNode(NodeViewModel node)
         {
-            _context.Nodes.Add(node);
+            var nts = node?.ToEntity();
+            _context.Nodes.Add(nts);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNode", new { id = node.Id }, node);
+            return CreatedAtAction("GetNode", new { id = nts.Id }, nts);
         }
 
         // DELETE: api/Node/5
