@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stuffy.API.Data;
 using Stuffy.API.Entities;
+using Stuffy.Entity;
 
 namespace Stuffy.API.Controllers
 {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Text.Json.Serialization;
 
-namespace Stuffy.API.Entities
+namespace Stuffy.Entity
 {
     public class Node
     {
@@ -24,8 +24,26 @@ namespace Stuffy.API.Entities
         }
 
         [NotMapped]
-        public Color Colour { get; set; }
+        private Color Colour { get; set; }
 
         public IEnumerable<Connection> Connections { get; set; }
+
+        public Node()
+        {
+            Id = Guid.Empty;
+            Name = string.Empty;
+            Type = NodeTypeEnum.None;
+            Colour = Color.Empty;
+            Connections = new List<Connection>();
+        }
+
+        public Node(Node node)
+        {
+            Id = node.Id;
+            Name = node.Name;
+            Type = node.Type;
+            ColourCode = node.ColourCode;
+            Connections = node.Connections;
+        }
     }
 }

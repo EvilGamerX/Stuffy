@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace Stuffy.API.Entities
+namespace Stuffy.Entity
 {
     public enum NodeTypeEnum
     {
