@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30413.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33006.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Stuffy.Database", "Stuffy.Database\Stuffy.Database.sqlproj", "{B26E475A-23E6-44EE-BEFA-616F1D040695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffy.API", "Stuffy.API\Stuffy.API.csproj", "{BD073DBE-61D0-43D0-BD1C-CAA5DE410ED2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stuffy.API", "Stuffy.API\Stuffy.API.csproj", "{BD073DBE-61D0-43D0-BD1C-CAA5DE410ED2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffy.Entity", "Stuffy.Entity\Stuffy.Entity.csproj", "{7345DECC-9645-4954-A837-BAC7489F0E0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{BD073DBE-61D0-43D0-BD1C-CAA5DE410ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD073DBE-61D0-43D0-BD1C-CAA5DE410ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD073DBE-61D0-43D0-BD1C-CAA5DE410ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7345DECC-9645-4954-A837-BAC7489F0E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7345DECC-9645-4954-A837-BAC7489F0E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7345DECC-9645-4954-A837-BAC7489F0E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7345DECC-9645-4954-A837-BAC7489F0E0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
