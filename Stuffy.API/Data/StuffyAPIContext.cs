@@ -12,5 +12,6 @@ namespace Stuffy.API.Data
 
         public DbSet<Node> Nodes { get; set; }
         public DbSet<Connection> Connections { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
