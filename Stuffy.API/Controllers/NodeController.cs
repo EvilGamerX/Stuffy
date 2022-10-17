@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stuffy.API.Data;
@@ -23,15 +24,19 @@ namespace Stuffy.API.Controllers
 
         // GET: api/Node
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NodeViewModel>>> GetNode()
+        public async Task<ActionResult<IEnumerable<NodeViewModel>>> GetNode(bool populate = false)
         {
             var nodes = await _context.Nodes.ToListAsync();
+            if(populate)
+            {
+                PopulateNodes(nodes);
+            }
             return nodes?.Select(node => new NodeViewModel(node)).ToList();
-        }
+        }        
 
         // GET: api/Node/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<NodeViewModel>> GetNode(Guid id)
+        public async Task<ActionResult<NodeViewModel>> GetNode(Guid id, bool populate = false)
         {
             var node = await _context.Nodes.FindAsync(id);
 
@@ -40,6 +45,8 @@ namespace Stuffy.API.Controllers
                 return NotFound();
             }
 
+            if (populate) PopulateNode(node);
+
             return new NodeViewModel(node);
         }
 
@@ -47,9 +54,8 @@ namespace Stuffy.API.Controllers
         [HttpGet("{id}/Connections")]
         public async Task<ActionResult<IEnumerable<ConnectionViewModel>>> GetConnectionsForNode(Guid id)
         {
-            var connections = await _context.Nodes.FindAsync(id);
-
-            throw new NotImplementedException();
+            var connections = _context.Connections.Where(c => c.ParentId == id).ToList();
+            return connections.Select(c => new ConnectionViewModel(c)).ToList();
         }
 
         // PUT: api/Node/5
@@ -117,6 +123,19 @@ namespace Stuffy.API.Controllers
         private bool NodeExists(Guid id)
         {
             return _context.Nodes.Any(e => e.Id == id);
+        }
+        private void PopulateNodes(List<Node> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                PopulateNode(node);
+            }
+        }
+
+        private void PopulateNode(Node node)
+        {
+            if (node == null) return;
+            node.Connections = _context.Connections.Where(c => c.ParentId == node.Id).ToList();
         }
     }
 }
