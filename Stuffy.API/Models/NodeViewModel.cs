@@ -8,6 +8,7 @@ namespace Stuffy.API.Models
     public class NodeViewModel : IViewModel<Node>
     {
         public Guid Id { get; set; }
+        public int UserId {get; set; }
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
         public int ColourCode { get; set; }
@@ -25,6 +26,7 @@ namespace Stuffy.API.Models
         public NodeViewModel(Node node)
         {
             Id = node.Id;
+            UserId = node.UserId;
             Name = node.Name;
             Type = node.Type;
             ColourCode = node.ColourCode;
@@ -36,6 +38,7 @@ namespace Stuffy.API.Models
             return new Node
             {
                 Id = Id,
+                UserId = UserId,
                 Name = Name,
                 Type = Type,
                 ColourCode = ColourCode,

@@ -9,6 +9,7 @@ namespace Stuffy.Entity
     public class Node
     {
         public Guid Id { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
         public int ColourCode
@@ -40,6 +41,7 @@ namespace Stuffy.Entity
         public Node(Node node)
         {
             Id = node.Id;
+            UserId = node.UserId;
             Name = node.Name;
             Type = node.Type;
             ColourCode = node.ColourCode;

@@ -29,7 +29,7 @@ namespace Stuffy.API.Controllers
             var nodes = await _context.Nodes.ToListAsync();
             if(populate)
             {
-                PopulateNodes(nodes);
+                nodes = PopulateNodes(nodes).ToList();
             }
             return nodes?.Select(node => new NodeViewModel(node)).ToList();
         }        
@@ -54,7 +54,7 @@ namespace Stuffy.API.Controllers
         [HttpGet("{id}/Connections")]
         public async Task<ActionResult<IEnumerable<ConnectionViewModel>>> GetConnectionsForNode(Guid id)
         {
-            var connections = _context.Connections.Where(c => c.ParentId == id).ToList();
+            var connections = await _context.Connections.Where(c => c.ParentId == id).ToListAsync();
             return connections.Select(c => new ConnectionViewModel(c)).ToList();
         }
 
@@ -124,18 +124,24 @@ namespace Stuffy.API.Controllers
         {
             return _context.Nodes.Any(e => e.Id == id);
         }
-        private void PopulateNodes(List<Node> nodes)
+        private IEnumerable<Node> PopulateNodes(List<Node> nodes)
         {
-            foreach (var node in nodes)
-            {
-                PopulateNode(node);
-            }
+            return nodes.Select(n => PopulateNode(n)).ToList();
         }
 
-        private void PopulateNode(Node node)
+        private Node PopulateNode(Node node)
         {
-            if (node == null) return;
-            node.Connections = _context.Connections.Where(c => c.ParentId == node.Id).ToList();
+            if (node == null) return null;
+            var connections = _context.Connections.ToList();
+            return new Node()
+            {
+                Id = node.Id,
+                UserId = node.UserId,
+                Name = node.Name,
+                ColourCode = node.ColourCode,
+                Type = node.Type,
+                Connections = connections.Where(c => c.ParentId.Equals(node.Id)).ToList()
+            };
         }
     }
 }
