@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Stuffy.API.Entities;
+using Stuffy.Entity;
 
 namespace Stuffy.API.Data
 {
@@ -15,5 +11,6 @@ namespace Stuffy.API.Data
         }
 
         public DbSet<Node> Nodes { get; set; }
+        public DbSet<Connection> Connections { get; set; }
     }
 }
