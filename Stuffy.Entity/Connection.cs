@@ -8,7 +8,10 @@ namespace Stuffy.Entity
     public class Connection
     {
         public Guid Id { get; set; }
-        public Node OtherNode { get; set; }
+        public Guid ParentId { get; set; }
+        [ForeignKey("Node")]
+        public Guid NodeId { get; set; }
+        public virtual Node Node { get; set; }
         public string Relationship { get; set; }
         public int ColourCode
         {
@@ -28,7 +31,8 @@ namespace Stuffy.Entity
         public Connection() 
         {
             Id = Guid.Empty;
-            OtherNode = new Node();
+            ParentId = Guid.Empty;
+            NodeId = Guid.Empty;
             Relationship = string.Empty;
             Colour = Color.Empty;
         }
@@ -36,7 +40,8 @@ namespace Stuffy.Entity
         public Connection(Connection connection) 
         {
             Id = connection.Id;
-            OtherNode = connection.OtherNode;
+            ParentId = connection.ParentId; 
+            NodeId = connection.NodeId;
             Relationship = connection.Relationship;
             ColourCode = connection.ColourCode;
         }

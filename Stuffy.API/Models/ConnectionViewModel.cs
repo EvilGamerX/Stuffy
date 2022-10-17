@@ -6,13 +6,15 @@ namespace Stuffy.API.Models
     public class ConnectionViewModel : IViewModel<Connection>
     {
         public Guid Id { get; set; }
-        public NodeViewModel OtherNode { get; set; }
+        public Guid ParentId { get; set; }
+        public NodeViewModel Node { get; set; }
         public string Relationship { get; set; }
         public int ColourCode { get; set; }
         public ConnectionViewModel() 
         {
             Id = Guid.Empty;
-            OtherNode = new NodeViewModel();
+            ParentId = Guid.Empty;
+            Node = new NodeViewModel();
             Relationship = string.Empty;
             ColourCode = 0;
         }
@@ -20,18 +22,20 @@ namespace Stuffy.API.Models
         public ConnectionViewModel(Connection connection)
         {
             Id = connection.Id;
+            ParentId = connection.ParentId;
             Relationship = connection.Relationship;
             ColourCode = connection.ColourCode;
-            OtherNode = new NodeViewModel(connection.OtherNode);
+            Node = new NodeViewModel() { Id = connection.NodeId };
         }
         public Connection ToEntity()
         {
             return new Connection
             {
                 Id = Id,
+                ParentId = ParentId,
                 Relationship = Relationship,
                 ColourCode = ColourCode,
-                OtherNode = OtherNode.ToEntity()
+                NodeId = Node.Id
             };
         }
     }

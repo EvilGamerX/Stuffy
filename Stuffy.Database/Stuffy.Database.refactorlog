@@ -7,4 +7,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ColourCode" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="eeb24d9e-50f2-4fe9-b2d3-9a8919b4b79a" ChangeDateTime="10/17/2022 11:36:57">
+    <Property Name="ElementName" Value="[dbo].[Connections].[OtherNodeId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Connections]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NodeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7fbcaf3d-2fcd-4fc5-8a9c-8718bd315744" ChangeDateTime="10/17/2022 11:43:22">
+    <Property Name="ElementName" Value="[dbo].[Connections].[Colour]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Connections]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ColourCode" />
+  </Operation>
 </Operations>
