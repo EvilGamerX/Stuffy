@@ -2,17 +2,18 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Stuffy.Website.Shared.Models;
-@*@attribute [Authorize]*@
+@attribute [Authorize]
 @inject HttpClient Http
 
 <h3>View All Saved Stuffies</h3>
 
-if (stuffies == null)
+@if (stuffies == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <button href="stuffy/add">Add A Stuffy</button>
     <table class="table">
         <thead>
             <tr>
@@ -26,7 +27,7 @@ else
         {
                     <tr>
                         <td>@stuffy.Name</td>
-                        <td>@stuffy.ColourCode</td>
+                        <td style="background-color:@stuffy.ColourCode">@stuffy.ColourCode</td>
                         <td>@stuffy.Connections.Count()</td>
                     </tr>
         }
@@ -41,7 +42,7 @@ else
     {
         try
         {
-            stuffies = await Http.GetFromJsonAsync<NodeViewModel[]>("WeatherForecast");
+            stuffies = await Http.GetFromJsonAsync<NodeViewModel[]>("api/node");
         }
         catch (AccessTokenNotAvailableException exception)
         {

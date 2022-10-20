@@ -3,19 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using Stuffy.Website.Server.Data;
 using Stuffy.Website.Shared.Entities;
 using Stuffy.Website.Shared.Models;
+using System.Security.Claims;
 
 namespace Stuffy.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class NodeController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor httpContext;
         private readonly ILogger<NodeController> logger;
 
-        public NodeController(ApplicationDbContext context, ILogger<NodeController> logger)
+        public NodeController(ApplicationDbContext context, IHttpContextAccessor httpContext, ILogger<NodeController> logger)
         {
             _context = context;
+            this.httpContext = httpContext;
             this.logger = logger;
         }
 
@@ -95,6 +98,7 @@ namespace Stuffy.API.Controllers
         public async Task<ActionResult<Node>> PostNode(NodeViewModel node)
         {
             var nts = node?.ToEntity();
+            nts.UserId = httpContext.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             _context.Nodes.Add(nts);
             await _context.SaveChangesAsync();
 
