@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33006.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffy.Website.Server", "Stuffy.Website\Server\Stuffy.Website.Server.csproj", "{159AAD05-DBA2-410D-BBAA-80020B891E60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stuffy.Website.Server", "Stuffy.Website\Server\Stuffy.Website.Server.csproj", "{159AAD05-DBA2-410D-BBAA-80020B891E60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffy.Website.Client", "Stuffy.Website\Client\Stuffy.Website.Client.csproj", "{D533B74C-85A8-4B96-96BE-C56D8658098A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stuffy.Website.Client", "Stuffy.Website\Client\Stuffy.Website.Client.csproj", "{D533B74C-85A8-4B96-96BE-C56D8658098A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stuffy.Website.Shared", "Stuffy.Website\Shared\Stuffy.Website.Shared.csproj", "{6DB311E4-9C2D-4B28-8B06-64E211FD3483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stuffy.Website.Shared", "Stuffy.Website\Shared\Stuffy.Website.Shared.csproj", "{6DB311E4-9C2D-4B28-8B06-64E211FD3483}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
