@@ -51,6 +51,8 @@ namespace Stuffy.API
 
             app.UseAuthorization();
 
+            //app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
