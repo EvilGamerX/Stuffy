@@ -10,20 +10,7 @@ namespace Stuffy.Website.Shared.Entities
         public string? UserId { get; set; }
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
-        public int ColourCode
-        {
-            get
-            {
-                return Colour.ToArgb();
-            }
-            set
-            {
-                Colour = Color.FromArgb(value);
-            }
-        }
-
-        [NotMapped]
-        private Color Colour { get; set; }
+        public string ColourCode { get; set; }
 
         public IEnumerable<Connection> Connections { get; set; }
 
@@ -32,7 +19,7 @@ namespace Stuffy.Website.Shared.Entities
             Id = Guid.Empty;
             Name = string.Empty;
             Type = NodeTypeEnum.None;
-            Colour = Color.Empty;
+            ColourCode = "#000000";
             Connections = new List<Connection>();
         }
 

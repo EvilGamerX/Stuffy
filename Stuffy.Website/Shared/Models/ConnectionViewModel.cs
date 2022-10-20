@@ -1,4 +1,5 @@
 ﻿using Stuffy.Website.Shared.Entities;
+using System.Drawing;
 
 namespace Stuffy.Website.Shared.Models
 {
@@ -8,14 +9,14 @@ namespace Stuffy.Website.Shared.Models
         public Guid ParentId { get; set; }
         public NodeViewModel Node { get; set; }
         public string Relationship { get; set; }
-        public int ColourCode { get; set; }
+        public string ColourCode { get; set; }
         public ConnectionViewModel() 
         {
             Id = Guid.Empty;
             ParentId = Guid.Empty;
             Node = new NodeViewModel();
             Relationship = string.Empty;
-            ColourCode = 0;
+            ColourCode = "#000000";
         }
 
         public ConnectionViewModel(Connection connection)

@@ -1,6 +1,7 @@
 ﻿
 using Stuffy.Website.Shared.Entities;
 using Stuffy.Website.Shared.Enums;
+using System.Drawing;
 
 namespace Stuffy.Website.Shared.Models
 {
@@ -10,7 +11,7 @@ namespace Stuffy.Website.Shared.Models
         public string? UserId {get; set; }
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
-        public int ColourCode { get; set; }
+        public string ColourCode { get; set; }
         public IEnumerable<ConnectionViewModel> Connections { get; set; }
 
         public NodeViewModel() 
@@ -18,7 +19,7 @@ namespace Stuffy.Website.Shared.Models
             Id = Guid.Empty;
             Name = string.Empty;
             Type = NodeTypeEnum.None;
-            ColourCode = 0;
+            ColourCode = "#000000";
             Connections = new List<ConnectionViewModel>();
         }
 

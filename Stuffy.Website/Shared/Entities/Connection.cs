@@ -12,20 +12,7 @@ namespace Stuffy.Website.Shared.Entities
         public Guid NodeId { get; set; }
         public virtual Node Node { get; set; }
         public string Relationship { get; set; }
-        public int ColourCode
-        {
-            get
-            {
-                return Colour.ToArgb();
-            }
-            set
-            {
-                Colour = Color.FromArgb(value);
-            }
-        }
-
-        [NotMapped]
-        private Color Colour { get; set; }
+        public string ColourCode { get; set; }
 
         public Connection()
         {
@@ -33,7 +20,7 @@ namespace Stuffy.Website.Shared.Entities
             ParentId = Guid.Empty;
             NodeId = Guid.Empty;
             Relationship = string.Empty;
-            Colour = Color.Empty;
+            ColourCode = "#000000";
         }
 
         public Connection(Connection connection)
