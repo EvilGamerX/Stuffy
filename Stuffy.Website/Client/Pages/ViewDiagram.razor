@@ -6,6 +6,7 @@
 @using Blazor.Diagrams.Core;
 @using Blazor.Diagrams.Core.Geometry;
 @using Blazor.Diagrams.Core.Models;
+@using Stuffy.Website.Client.Models;
 @using Stuffy.Website.Shared.Models;
 @inject HttpClient Http
 
@@ -49,13 +50,14 @@ else
                 }
             };
         _diagram = new Diagram(options);
+        _diagram.RegisterModelComponent<NodeNodeModel, MyNode>();
+
 
         var nodes = await Http.GetFromJsonAsync<NodeViewModel[]>("api/node");
-        foreach(var node in nodes)
+        foreach(var stuffy in nodes)
         {
-            var nodeModel = new NodeModel(new Point((Random.Shared.NextDouble() * 100.0) + 50, (Random.Shared.NextDouble() * 200.0) + 50));
+            var nodeModel = new NodeNodeModel((Random.Shared.NextDouble() * 100.0) + 50, (Random.Shared.NextDouble() * 200.0) + 50, stuffy);
             _diagram.Nodes.Add(nodeModel);
-
         }
     }
 
