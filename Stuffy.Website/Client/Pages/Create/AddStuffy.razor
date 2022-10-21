@@ -6,7 +6,8 @@
 @using Stuffy.Website.Shared.Enums;
 @using System.Security.Claims
 @using Stuffy.Website.Shared.Models;
-@inject HttpClient Http
+@inject HttpClient Http;
+@inject NavigationManager Navigation;
 @attribute [Authorize]
 
 
@@ -27,6 +28,9 @@
     private IEnumerable<NodeTypeEnum> NodeTypes = Enum.GetValues(typeof(NodeTypeEnum)).Cast<NodeTypeEnum>();
     private NodeViewModel stuffy = new NodeViewModel();
 
-    private async Task SaveItem() =>
-        await Http.PostAsJsonAsync($"api/node", stuffy);
+    private async Task SaveItem() {
+        var ret = await Http.PostAsJsonAsync($"api/node", stuffy);
+        var node = await ret.Content.ReadFromJsonAsync<NodeViewModel>();
+        Navigation.NavigateTo("/stuffy");
+    }
 }
