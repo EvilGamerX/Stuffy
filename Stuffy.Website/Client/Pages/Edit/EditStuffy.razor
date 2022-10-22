@@ -1,0 +1,108 @@
+﻿@page "/stuffy/{id}/edit"
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using Stuffy.Website.Shared.Enums;
+@using Stuffy.Website.Shared.Models;
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager Navigation;
+
+
+@if (_stuffy == null)
+{
+    <h3>Loading...</h3>
+}
+else
+{
+    <h3>Editing: @_stuffy.Name</h3>
+
+    <button @onclick="SaveItem">Save</button>
+
+    <div class="container">
+        <div class="col-12 profile">
+            <div class="col-6">
+                <div class="circle"><p>@_stuffy.Name[0]</p></div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-3">
+                        <b>Stuffy Name:</b>
+                    </div>
+                    <div class="col-3">
+                        <input @bind="@_stuffy.Name" maxlength="64" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <b>Stuffy Description:</b>
+                    </div>
+                    <div class="col-3">
+                       <input @bind="@_stuffy.Description" maxlength="1000"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .circle {
+            outline-color: black;
+            outline-style: solid;
+            background-color: @_stuffy.ColourCode;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .circle p {
+                color: white;
+                font-size: 200px;
+                text-align: center;
+                vertical-align: central;
+                text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black, -0.05em -0.05em black, -0.05em 0.05em black, 0.05em -0.05em black, 0.05em 0.05em black;
+            }
+
+        .profile {
+            display: flex;
+        }
+
+    </style>
+}
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    private NodeViewModel? _stuffy;
+    private string _imagePath;
+    private IEnumerable<NodeTypeEnum> NodeTypes = Enum.GetValues(typeof(NodeTypeEnum)).Cast<NodeTypeEnum>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _stuffy = await Http.GetFromJsonAsync<NodeViewModel>($"api/node/{id}");
+            //var img = await Http.GetByteArrayAsync("/images/bandit.png");
+
+            //_imagePath = "data:image/png;base64, " + Convert.ToBase64String(img);
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    private async Task SaveItem()
+    {
+        var ret = await Http.PutAsJsonAsync($"api/node/{id}", _stuffy);
+        if (ret.IsSuccessStatusCode)
+            Navigation.NavigateTo($"/stuffy/{_stuffy.Id}");
+        
+    }
+}

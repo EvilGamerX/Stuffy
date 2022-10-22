@@ -1,7 +1,7 @@
 ﻿@using Blazor.Diagrams.Components.Renderers
 @using Stuffy.Website.Client.Models;
 
-<div id="@Node.Data.Id" class="circle" style="">
+<div id="@Node.Data.Id" class="circle" style="background-color:@Node.Data.ColourCode">
     <p>@Node.Data.Name</p>
     @foreach (var port in Node.Ports)
     {
@@ -11,13 +11,9 @@
 </div>
 
 <style>
-    @css  {
-        background: @Node.Data.ColourCode;
-    }
-
     .circle {
         outline-color: black; 
-        outline-style: solid; 
+        outline-style: solid;
         width:100px; 
         height:100px; 
         border-radius: 50%;
@@ -43,11 +39,8 @@
         0.05em -0.05em black,
         0.05em 0.05em black;
     }
-
 </style>
 
 @code {
-    //Thanks to - https://stackoverflow.com/questions/71099593/blazor-set-background-color-with-parameter
-    private string css => $"#{Node.Data.Id}";
     [Parameter] public NodeNodeModel Node { get; set; }
 }

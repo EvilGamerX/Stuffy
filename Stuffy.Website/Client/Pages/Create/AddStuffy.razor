@@ -21,7 +21,7 @@
         <option value="@type">@type.ToString()</option>
     }
 </select>
-
+<input @bind="stuffy.Description" />
 <button @onclick="SaveItem">Save</button>
 
 @code {
@@ -31,6 +31,6 @@
     private async Task SaveItem() {
         var ret = await Http.PostAsJsonAsync($"api/node", stuffy);
         var node = await ret.Content.ReadFromJsonAsync<NodeViewModel>();
-        Navigation.NavigateTo("/stuffy");
+        Navigation.NavigateTo($"/stuffy/{node.Id}");
     }
 }
