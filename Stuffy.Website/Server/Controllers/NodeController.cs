@@ -88,7 +88,7 @@ namespace Stuffy.API.Controllers
                 }
             }
 
-            return NoContent();
+            return StatusCode(200);
         }
 
         // POST: api/Node
