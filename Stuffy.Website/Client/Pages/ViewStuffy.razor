@@ -1,48 +1,96 @@
-﻿@page "/stuffy"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+﻿@page "/stuffy/{id}"
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 @using Stuffy.Website.Shared.Models;
 @attribute [Authorize]
 @inject HttpClient Http
 
-<h3>View All Saved Stuffies</h3>
 
-@if (stuffies == null)
+@if(_stuffy == null)
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <button href="stuffy/add">Add A Stuffy</button>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Colour</th>
-                <th>Number of Connections</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var stuffy in stuffies)
-        {
-                    <tr>
-                        <td>@stuffy.Name</td>
-                        <td style="background-color:@stuffy.ColourCode">@stuffy.ColourCode</td>
-                        <td>@stuffy.Connections.Count()</td>
-                    </tr>
-        }
-        </tbody>
-    </table>
+    <h3>Loading...</h3>
+}else{
+<h3>@_stuffy.Name</h3>
+
+<div class="container">
+    <div class="col-12 profile">
+        <div class="col-6">
+                <div class="circle"><p>@_stuffy.Name[0]</p></div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-3">
+                        <b>Stuffy Name:</b>
+                </div>
+                <div class="col-3">
+                    <p>@_stuffy.Name</p>
+                </div>     
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <b>Stuffy Description:</b>
+                </div>
+                <div class="col-3">
+                    <p>@_stuffy.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .circle {
+        outline-color: black; 
+        outline-style: solid; 
+        background-color: @_stuffy.ColourCode;
+        width:500px; 
+        height:500px; 
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .circle p {
+    color: white;
+    font-size: 200px;
+    text-align: center;
+    vertical-align: central;
+    text-shadow:
+        0.05em 0 black,
+        0 0.05em black,
+        -0.05em 0 black,
+        0 -0.05em black,
+        -0.05em -0.05em black,
+        -0.05em 0.05em black,
+        0.05em -0.05em black,
+        0.05em 0.05em black;
+    }
+
+    .profile{
+        display: flex;
+    }
+
+</style>
 }
 
 @code {
-    private NodeViewModel[]? stuffies;
+    [Parameter]
+    public string id { get; set; }
+    private NodeViewModel? _stuffy;
+    private string _imagePath;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            stuffies = await Http.GetFromJsonAsync<NodeViewModel[]>("api/node");
+            _stuffy = await Http.GetFromJsonAsync<NodeViewModel>($"api/node/{id}");
+            //var img = await Http.GetByteArrayAsync("/images/bandit.png");
+            
+            //_imagePath = "data:image/png;base64, " + Convert.ToBase64String(img);
         }
         catch (AccessTokenNotAvailableException exception)
         {
