@@ -12,12 +12,12 @@ namespace Stuffy.Website.Shared.Models
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
         public string ColourCode { get; set; }
+        public string Description { get; set; }
         public IEnumerable<ConnectionViewModel> Connections { get; set; }
 
         public NodeViewModel() 
         {
             Id = Guid.Empty;
-            Name = string.Empty;
             Type = NodeTypeEnum.None;
             ColourCode = "#000000";
             Connections = new List<ConnectionViewModel>();
@@ -30,6 +30,7 @@ namespace Stuffy.Website.Shared.Models
             Name = node.Name;
             Type = node.Type;
             ColourCode = node.ColourCode;
+            Description = node.Description;
             Connections = node.Connections.Select(connection => new ConnectionViewModel(connection)).ToList();
         }
 
@@ -42,6 +43,7 @@ namespace Stuffy.Website.Shared.Models
                 Name = Name,
                 Type = Type,
                 ColourCode = ColourCode,
+                Description = Description,
                 Connections = Connections.Select(cvm => cvm.ToEntity())
             };
         }

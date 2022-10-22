@@ -11,13 +11,13 @@ namespace Stuffy.Website.Shared.Entities
         public string Name { get; set; }
         public NodeTypeEnum Type { get; set; }
         public string ColourCode { get; set; }
+        public string Description { get; set; }
 
         public IEnumerable<Connection> Connections { get; set; }
 
         public Node()
         {
             Id = Guid.Empty;
-            Name = string.Empty;
             Type = NodeTypeEnum.None;
             ColourCode = "#000000";
             Connections = new List<Connection>();
@@ -31,6 +31,7 @@ namespace Stuffy.Website.Shared.Entities
             Type = node.Type;
             ColourCode = node.ColourCode;
             Connections = node.Connections;
+            Description = node.Description;
         }
     }
 }
