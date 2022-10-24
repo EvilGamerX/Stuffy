@@ -23,7 +23,19 @@ namespace Stuffy.API.Controllers
         public async Task<ActionResult<IEnumerable<ConnectionViewModel>>> GetConnection()
         {
             var connections = await _context.Connections.ToListAsync();
-            return connections?.Select(connections => new ConnectionViewModel(connections)).ToList();
+            var nodes = await _context.Nodes.ToListAsync();
+            
+            return connections?.Select(connection => {
+                connection.OtherNode = nodes.SingleOrDefault(x => x.Id == connection.OtherNodeId);
+                connection.OtherNode.Connections = new List<Stuffy.Website.Shared.Entities.Connection>();
+                var parentNode = nodes.SingleOrDefault(x => x.Id == connection.ParentId);
+                parentNode.Connections = new List<Stuffy.Website.Shared.Entities.Connection>();
+                var parentVM = new NodeViewModel(parentNode);
+                return new ConnectionViewModel(connection)
+                {
+                    Parent = parentVM
+                };
+            }).ToList();
         }
 
         // GET: api/Connection/5
@@ -84,10 +96,25 @@ namespace Stuffy.API.Controllers
             }
             var cts = connection?.ToEntity();
             cts.Id = Guid.NewGuid();
+            var otno = await _context.Nodes.FindAsync(cts.OtherNode.Id);
+            cts.OtherNode = otno;
             _context.Connections.Add(cts);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetConnection", new { id = cts.Id }, cts);
+            //var bandit = await _context.Nodes.FindAsync(cts.ParentId);
+            //bandit.Connections.Add(cts);
+            //_context.Entry(bandit).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetConnection", new { id = cts.Id }, cts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(403);
+            }
+
+            
         }
 
         // DELETE: api/Connection/5
