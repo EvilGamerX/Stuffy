@@ -1,0 +1,72 @@
+﻿@page "/connection/add"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using Stuffy.Website.Shared.Enums;
+@using System.Security.Claims
+@using Stuffy.Website.Shared.Models;
+@inject HttpClient Http;
+@inject NavigationManager Navigation;
+@attribute [Authorize]
+
+
+@if (_nodes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Add Connection</h3>
+
+    <InputSelect @bind-Value="_connection.ParentId">
+        @foreach (var node in @_nodes)
+        {
+            <option value="@node.Id">@node.Name</option>
+        }
+    </InputSelect>
+    <input type="color" @bind="_connection.ColourCode" />
+    <input @bind="_connection.Relationship" />
+    <InputSelect @bind-Value="_connection.OtherNodeId">
+        @foreach (var node in @_nodes)
+        {
+            <option value="@node.Id">@node.Name</option>
+        }
+    </InputSelect>
+
+    <button @onclick="SaveItem">Save</button>
+}
+
+@code {
+    private NodeViewModel[]? _nodes;
+    private ConnectionViewModel _connection = new ConnectionViewModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _nodes = await Http.GetFromJsonAsync<NodeViewModel[]>("api/node");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    private async Task SaveItem()
+    {
+        _connection.OtherNode = _nodes.SingleOrDefault(x=>x.Id == _connection.OtherNodeId);
+        var ret = await Http.PostAsJsonAsync("api/connection", _connection);
+        if (ret.IsSuccessStatusCode)
+        {
+            var con = await ret.Content.ReadFromJsonAsync<ConnectionViewModel>();
+            Navigation.NavigateTo($"/connection/{con.Id}");
+        }
+        else
+        {
+            var err = await ret.Content.ReadAsStringAsync();
+            Console.Error.WriteLine(err);
+        }
+    }
+}

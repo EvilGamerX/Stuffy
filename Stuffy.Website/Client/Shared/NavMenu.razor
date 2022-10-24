@@ -31,16 +31,18 @@
                 </li>
             </ul>
         </li>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="connection">
+                <span class="oi oi-home" aria-hidden="true"></span> Connections
             </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
+            <ul class="nav flex-column">
+                <li class="px-3 nav-item">
+                    <NavLink class="nav-link" href="connection/add" Match=@NavLinkMatch.All>
+                    <span class="oi oi-plus" aria-hidden="true"></span>Add a Connection
+                    </NavLink>
+                </li>
+            </ul>
+        </li>
     </nav>
 </div>
 

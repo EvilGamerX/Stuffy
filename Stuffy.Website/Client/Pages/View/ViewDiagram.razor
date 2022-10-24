@@ -54,10 +54,21 @@ else
 
 
         var nodes = await Http.GetFromJsonAsync<NodeViewModel[]>("api/node");
+        var connections = await Http.GetFromJsonAsync<ConnectionViewModel[]>("api/connection");
+
+        var nodeDict = new Dictionary<Guid, NodeNodeModel>();
+
         foreach(var stuffy in nodes)
         {
             var nodeModel = new NodeNodeModel((Random.Shared.NextDouble() * 100.0) + 50, (Random.Shared.NextDouble() * 200.0) + 50, stuffy);
             _diagram.Nodes.Add(nodeModel);
+            nodeDict.TryAdd(nodeModel.Data.Id, nodeModel);
+        }
+
+        foreach(var connection in connections)
+        {
+            var connectionModel = new LinkModel(nodeDict[connection.ParentId], nodeDict[connection.OtherNodeId]);
+            _diagram.Links.Add(connectionModel);
         }
     }
 

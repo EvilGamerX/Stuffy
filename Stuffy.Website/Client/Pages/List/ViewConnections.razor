@@ -1,0 +1,54 @@
+﻿@page "/connection"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Stuffy.Website.Shared.Models;
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h3>View All Saved Connections</h3>
+
+@if (_connections == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <button href="connection/add">Add A Connection</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Relationship</th>
+                <th>Relationship To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var connection in _connections)
+            {
+                <tr>
+                    <td style="background-color:@connection.Parent.ColourCode"><a href="/stuffy/@connection.ParentId">@connection.Parent.Name</a></td>
+                    <td style="background-color:@connection.ColourCode">@((!string.IsNullOrEmpty(connection.Relationship) && connection.Relationship.Length > 48) ? connection.Relationship.Substring(0, 48) + "..." : connection.Relationship)</td>
+                    <td style="background-color: @connection.OtherNode.ColourCode">
+                        <a href="/stuffy/@connection.OtherNode.Id">@connection.OtherNode.Name</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ConnectionViewModel[]? _connections;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _connections = await Http.GetFromJsonAsync<ConnectionViewModel[]>("api/connection");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+}

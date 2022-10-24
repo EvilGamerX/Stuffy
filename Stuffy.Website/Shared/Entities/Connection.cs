@@ -8,9 +8,8 @@ namespace Stuffy.Website.Shared.Entities
     {
         public Guid Id { get; set; }
         public Guid ParentId { get; set; }
-        [ForeignKey("Node")]
-        public Guid NodeId { get; set; }
-        public virtual Node Node { get; set; }
+        public Guid OtherNodeId { get; set; }
+        public virtual Node OtherNode{ get; set; }
         public string Relationship { get; set; }
         public string ColourCode { get; set; }
 
@@ -18,7 +17,7 @@ namespace Stuffy.Website.Shared.Entities
         {
             Id = Guid.Empty;
             ParentId = Guid.Empty;
-            NodeId = Guid.Empty;
+            OtherNode = new Node();
             Relationship = string.Empty;
             ColourCode = "#000000";
         }
@@ -27,7 +26,7 @@ namespace Stuffy.Website.Shared.Entities
         {
             Id = connection.Id;
             ParentId = connection.ParentId;
-            NodeId = connection.NodeId;
+            OtherNode = connection.OtherNode;
             Relationship = connection.Relationship;
             ColourCode = connection.ColourCode;
         }

@@ -1,5 +1,7 @@
 ﻿using Stuffy.Website.Shared.Entities;
 using System.Drawing;
+using System.Net.NetworkInformation;
+using System.Text.Json.Serialization;
 
 namespace Stuffy.Website.Shared.Models
 {
@@ -7,14 +9,17 @@ namespace Stuffy.Website.Shared.Models
     {
         public Guid Id { get; set; }
         public Guid ParentId { get; set; }
-        public NodeViewModel Node { get; set; }
+        public virtual NodeViewModel? Parent { get; set; }
+        public Guid OtherNodeId{ get; set; }
+        public virtual NodeViewModel OtherNode { get; set; }
         public string Relationship { get; set; }
         public string ColourCode { get; set; }
         public ConnectionViewModel() 
         {
             Id = Guid.Empty;
             ParentId = Guid.Empty;
-            Node = new NodeViewModel();
+            OtherNodeId = Guid.Empty;
+            OtherNode = new NodeViewModel();
             Relationship = string.Empty;
             ColourCode = "#000000";
         }
@@ -23,9 +28,10 @@ namespace Stuffy.Website.Shared.Models
         {
             Id = connection.Id;
             ParentId = connection.ParentId;
+            OtherNodeId = connection.OtherNodeId;
             Relationship = connection.Relationship;
             ColourCode = connection.ColourCode;
-            Node = new NodeViewModel() { Id = connection.NodeId };
+            OtherNode = new NodeViewModel(connection.OtherNode);
         }
         public Connection ToEntity()
         {
@@ -35,7 +41,7 @@ namespace Stuffy.Website.Shared.Models
                 ParentId = ParentId,
                 Relationship = Relationship,
                 ColourCode = ColourCode,
-                NodeId = Node.Id
+                OtherNodeId = OtherNodeId
             };
         }
     }
