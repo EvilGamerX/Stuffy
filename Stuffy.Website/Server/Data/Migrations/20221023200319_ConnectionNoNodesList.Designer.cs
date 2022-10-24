@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stuffy.Website.Server.Data;
 
@@ -11,9 +12,11 @@ using Stuffy.Website.Server.Data;
 namespace Stuffy.Website.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023200319_ConnectionNoNodesList")]
+    partial class ConnectionNoNodesList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -393,7 +396,7 @@ namespace Stuffy.Website.Server.Data.Migrations
 
                     b.HasIndex("OtherNodeId");
 
-                    b.ToTable("Connections", (string)null);
+                    b.ToTable("Connections");
                 });
 
             modelBuilder.Entity("Stuffy.Website.Shared.Entities.Node", b =>
@@ -422,7 +425,7 @@ namespace Stuffy.Website.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Nodes", (string)null);
+                    b.ToTable("Nodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

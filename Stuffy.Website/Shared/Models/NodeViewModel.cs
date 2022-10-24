@@ -13,7 +13,7 @@ namespace Stuffy.Website.Shared.Models
         public NodeTypeEnum Type { get; set; }
         public string ColourCode { get; set; }
         public string Description { get; set; }
-        public IEnumerable<ConnectionViewModel> Connections { get; set; }
+        public ICollection<ConnectionViewModel> Connections { get; set; }
 
         public NodeViewModel() 
         {
@@ -44,7 +44,7 @@ namespace Stuffy.Website.Shared.Models
                 Type = Type,
                 ColourCode = ColourCode,
                 Description = Description,
-                Connections = Connections.Select(cvm => cvm.ToEntity())
+                Connections = Connections.Select(cvm => cvm.ToEntity()).ToList()
             };
         }
     }

@@ -13,7 +13,7 @@ namespace Stuffy.Website.Shared.Entities
         public string ColourCode { get; set; }
         public string Description { get; set; }
 
-        public IEnumerable<Connection> Connections { get; set; }
+        public ICollection<Connection> Connections { get; set; }
 
         public Node()
         {
