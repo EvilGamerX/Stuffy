@@ -15,7 +15,7 @@ jobs:
           # Optional quality of the build. The possible values are: daily, signed, validated, preview, ga.
           dotnet-quality: preview
       - name: Publish .Net Core Project
-        run: dotnet publish Stuffy.Website.Server.csproj -c Release -o release --nologo
+        run: dotnet publish Stuffy.Website/Server/Stuffy.Website.Server.csproj -c Release -o release --nologo
       - name: Commit wwwroot to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
